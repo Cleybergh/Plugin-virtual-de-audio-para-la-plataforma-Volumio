@@ -2,10 +2,7 @@ import math
 
 SAMPLE_RATE = 48000
 
-# Potenciometro DISTORTION: 1 Mohm logaritmico en serie con R3 (4k7).
-# OJO: en el circuito, MAS resistencia = MENOS ganancia. Por eso el mando de
-# la interfaz (0 = limpio, 1 = maxima distorsion) se mapea INVERTIDO sobre la
-# resistencia, y ademas con ley logaritmica para repartir el rango util.
+
 R_DIS_MAX = 1e6      # ohmios con el mando a 0 (ganancia minima, ~x2)
 R_DIS_MIN = 1e3      # ohmios con el mando a 1 (ganancia maxima, ~x176)
 
