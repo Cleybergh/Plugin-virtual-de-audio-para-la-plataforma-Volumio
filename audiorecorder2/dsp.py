@@ -1,10 +1,11 @@
-
-
 import math
 
 SAMPLE_RATE = 48000
 
-
+# Potenciometro DISTORTION: 1 Mohm logaritmico en serie con R3 (4k7).
+# OJO: en el circuito, MAS resistencia = MENOS ganancia. Por eso el mando de
+# la interfaz (0 = limpio, 1 = maxima distorsion) se mapea INVERTIDO sobre la
+# resistencia, y ademas con ley logaritmica para repartir el rango util.
 R_DIS_MAX = 1e6      # ohmios con el mando a 0 (ganancia minima, ~x2)
 R_DIS_MIN = 1e3      # ohmios con el mando a 1 (ganancia maxima, ~x176)
 
@@ -20,11 +21,7 @@ def dis_to_ohms(wipper_dis):
 # --------------------------------------------------------------------------
 
 def compute_coefficients(Ts, wipper_dis):
-    """Calcula todas las constantes del circuito una sola vez.
 
-    Ts          : periodo de muestreo (s)
-    wipper_dis  : posicion del mando de distorsion [0.0 = limpio, 1.0 = maxima]
-    """
     # --- Etapa de salida (filtro + diodos) ---
     rv, r5, c4, c5 = 10e3, 10e3, 1e-6, 1e-9
     Rc4 = Ts / (2 * c4)
@@ -89,7 +86,7 @@ def compute_coefficients(Ts, wipper_dis):
 def _output_stage(vo1, c, xc4, xc5, vc5_init, tolerance=1e-7, max_iter=5000):
 
     vc5 = vc5_init
-    K = c['K']p.add_argument('--mono', action='store_true'
+    K = c['K']
     K_Rc4 = c['K_Rc4']
     K_Rc4_R5 = c['K_Rc4_R5']
     K_Rc4_R5_2Is = c['K_Rc4_R5_2Is']
@@ -126,6 +123,12 @@ def _output_stage(vo1, c, xc4, xc5, vc5_init, tolerance=1e-7, max_iter=5000):
 # --------------------------------------------------------------------------
 
 def new_state():
+    """Estado interno del circuito (mono). Reutilizable entre bloques."""
+    return {'xc2': 0.0, 'xc3': 0.0, 'xc4': 0.0, 'xc5': 0.0,
+            'xc6': 0.0, 'vc5': 0.0}
+
+
+def mxr_block(block, Ts, wipper_out, coeffs, state):
 
     c = coeffs
     A_vo1_vi, A_vo1_xc2 = c['A_vo1_vi'], c['A_vo1_xc2']
@@ -173,14 +176,7 @@ def new_state():
 
 def mxr_process(x, sr, wipper_dis=0.5, wipper_out=1.0, progress_cb=None,
                 block_size=4096):
-    """Procesa una senal mono completa (iterable de floats).
 
-    x           : senal de entrada (mono, float, rango ~[-1, 1])
-    sr          : frecuencia de muestreo (Hz)
-    wipper_dis  : potenciometro DISTORTION [0.0 - 1.0]
-    wipper_out  : potenciometro OUTPUT     [0.0 - 1.0]
-    progress_cb : funcion opcional cb(muestras_procesadas, total)
-    """
     Ts = 1.0 / sr
     coeffs = compute_coefficients(Ts, wipper_dis)
     state = new_state()
