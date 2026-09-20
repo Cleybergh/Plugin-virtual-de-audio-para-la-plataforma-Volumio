@@ -1,0 +1,145 @@
+{
+  "page": {
+    "label": "Grabador Pisound",
+    "description": "Controla la grabación de audio y efectos usando la Pisound",
+    "icon": "fa-music"
+  },
+  "sections": [
+    {
+      "section": "Controles de Archivos",
+      "description": "Especifica las rutas y nombres de archivos para reproducción y grabación",
+      "onSave": {
+        "type": "controller",
+        "endpoint": "music_service/audiorecorder2",
+        "method": "saveConfig"
+      },
+      "saveButton": {
+        "label": "Save",
+        "data": [
+          "file_path",
+          "file_name"
+        ]
+      },
+      "content": [
+        {
+          "id": "file_path",
+          "element": "input",
+          "type": "text",
+          "label": "Ruta del archivo de reproducción",
+          "value": "/home/volumio/recordings/"
+        },
+        {
+          "id": "file_name",
+          "element": "input",
+          "type": "text",
+          "label": "Nombre del archivo",
+          "value": "output.wav"
+        }
+      ]
+    },
+    {
+      "section": "Controles de Grabación",
+      "description": "Controla la grabación de pistas de audio",
+      "content": [
+        {
+          "id": "stopButton",
+          "element": "button",
+          "label": "Stop",
+          "onClick": {
+            "type": "callMethod",
+            "endpoint": "music_service/audiorecorder2",
+            "method": "stopAudio"
+          }
+        },
+        {
+          "id": "saveButton",
+          "element": "button",
+          "label": "Record",
+          "onClick": {
+            "type": "callMethod",
+            "endpoint": "music_service/audiorecorder2",
+            "method": "saveAudio"
+          }
+        }
+      ]
+    },
+    {
+      "id": "section_mxr_params",
+      "element": "section",
+      "label": "Parámetros MXR Distortion+",
+      "description": "Distortion y Nivel de salida reproducen los mandos del pedal. La ganancia de entrada ajusta el nivel de la señal que entra al circuito.",
+      "onSave": {
+        "type": "controller",
+        "endpoint": "music_service/audiorecorder2",
+        "method": "saveMxrConfig"
+      },
+      "saveButton": {
+        "label": "Guardar parámetros",
+        "data": [
+          "wipper_dis",
+          "wipper_out",
+          "in_gain"
+        ]
+      },
+      "content": [
+        {
+          "id": "wipper_dis",
+          "element": "input",
+          "type": "number",
+          "label": "Distortion",
+          "doc": "0 = limpio (ganancia x2) · 1 = máxima distorsión (ganancia x176). Ley logarítmica.",
+          "attributes": [
+            { "min": 0 },
+            { "max": 1 },
+            { "step": 0.01 }
+          ],
+          "value": 0.5
+        },
+        {
+          "id": "wipper_out",
+          "element": "input",
+          "type": "number",
+          "label": "Nivel de salida",
+          "doc": "Escala la señal tras el recorte (0 - 1). No modifica el carácter de la distorsión.",
+          "attributes": [
+            { "min": 0 },
+            { "max": 1 },
+            { "step": 0.01 }
+          ],
+          "value": 1.0
+        },
+        {
+          "id": "in_gain",
+          "element": "input",
+          "type": "number",
+          "label": "Ganancia de entrada",
+          "doc": "Voltios equivalentes al fondo de escala del WAV. 0.1 = 100 mV, nivel típico de pastilla de guitarra.",
+          "attributes": [
+            { "min": 0.01 },
+            { "max": 1 },
+            { "step": 0.01 }
+          ],
+          "value": 0.1
+        }
+      ]
+    },
+    {
+      "id": "section_mxr_run",
+      "element": "section",
+      "label": "Aplicar efecto",
+      "description": "Procesa el fichero de la sección 1 con los parámetros GUARDADOS en la sección 3. El resultado aparece en Explorar → Mis Grabaciones.",
+      "content": [
+        {
+          "id": "btn_apply_effect",
+          "element": "button",
+          "label": "Aplicar MXR Distortion+",
+          "onClick": {
+            "type": "callMethod",
+            "endpoint": "music_service/audiorecorder2",
+            "method": "applyMxrEffect"
+          }
+        }
+      ]
+    }
+  ]
+}
