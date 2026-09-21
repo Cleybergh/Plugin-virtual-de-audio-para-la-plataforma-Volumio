@@ -40,6 +40,9 @@ Scripts usados para obtener las medidas y las figuras del capítulo 4.
 ### `datos/`
 
 - `guitarra.wav`: grabación de guitarra eléctrica hecha con el propio plugin a través de la Pisound.
+- `mxr_guitarra.wav`: la misma grabación procesada (distorsión 1.0, nivel de salida 1.0, ganancia de entrada 0.2).
+- `tono220.wav`: tono de prueba de 220 Hz (lo genera `Generar_tono.m`).
+- `tono220_dis0.00.wav` … `tono220_dis1.00.wav`: el tono procesado con cada posición del mando (de 0.00, 0.25, 0.50, 0.75, y 1.00)(nivel de salida 1.0, ganancia de entrada 0.1).
 
 
 ## Limitaciones
