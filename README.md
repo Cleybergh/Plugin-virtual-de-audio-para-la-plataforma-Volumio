@@ -41,34 +41,6 @@ Scripts usados para obtener las medidas y las figuras del capítulo 4.
 
 - `guitarra.wav`: grabación de guitarra eléctrica hecha con el propio plugin a través de la Pisound.
 
-## Requisitos
-
-- Raspberry Pi 5 con Volumio 3.0 y tarjeta Pisound.
-- Python 3.7.3, que ya trae Volumio. No hace falta instalar nada más.
-- MATLAB, solo para los scripts de `matlab/`.
-
-## Instalación
-
-1. Copiar la carpeta `audiorecorder2/` a `/data/plugins/music_service/audiorecorder2/` en la Raspberry Pi.
-2. Reiniciar el servicio: `sudo systemctl restart volumio`.
-
-## Uso desde la interfaz de Volumio
-
-1. En los ajustes del plugin, indicar en la primera sección la carpeta y el nombre del fichero WAV a procesar.
-2. En la sección del filtro MXR, ajustar **Distortion**, **Nivel de salida** y **Ganancia de entrada**, y pulsar **Guardar parámetros**.
-3. Pulsar **Aplicar MXR Distortion+**.
-4. El resultado aparece en **Mis grabaciones** como `mxr_<nombre>.wav`, junto al original.
-
-Hay que guardar los parámetros antes de procesar: el botón usa los últimos valores guardados.
-
-| Parámetro | Rango | Por defecto |
-|---|---|---|
-| Distortion (`wipper_dis`) | 0 – 1 | 0,5 |
-| Nivel de salida (`wipper_out`) | 0 – 1 | 1,0 |
-| Ganancia de entrada (`in_gain`) | 0,01 – 1 | 0,1 |
-
-
-La salida es un WAV PCM de 16 bits, estéreo con la señal procesada duplicada en los dos canales (`--mono` escribe un solo canal).
 
 ## Limitaciones
 
