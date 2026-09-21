@@ -67,11 +67,6 @@ Hay que guardar los parámetros antes de procesar: el botón usa los últimos va
 | Nivel de salida (`wipper_out`) | 0 – 1 | 1,0 |
 | Ganancia de entrada (`in_gain`) | 0,01 – 1 | 0,1 |
 
-## Uso desde la línea de órdenes
-
-```bash
-python3 file_proc.py <entrada.wav> <salida.wav> <wipper_dis> <wipper_out> [--in-gain G] [--mono] [--quiet]
-```
 
 La salida es un WAV PCM de 16 bits, estéreo con la señal procesada duplicada en los dos canales (`--mono` escribe un solo canal).
 
