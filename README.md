@@ -3,8 +3,9 @@
 Plugin de Volumio que aplica a una grabación el sonido del pedal **MXR Distortion+**, usando un modelo del circuito calculado en Python. Funciona en una Raspberry Pi 5 con la tarjeta Pisound y se controla desde la interfaz web de Volumio.
 
 Trabajo Final de Grado · Grado en Ingeniería de Sistemas Audiovisuales
+
 Autor: David Bueno Cleybergh · Director: José Antonio Soria Pérez
-Memoria: _(añadir enlace)_
+
 
 ## Contenido
 
