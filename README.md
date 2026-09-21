@@ -70,42 +70,6 @@ Hay que guardar los parámetros antes de procesar: el botón usa los últimos va
 
 La salida es un WAV PCM de 16 bits, estéreo con la señal procesada duplicada en los dos canales (`--mono` escribe un solo canal).
 
-## Cómo se obtuvieron las medidas
-
-### Distorsión armónica y factor de cresta del tono (4.4 y 4.5.1)
-
-1. Generar el tono con `Generar_tono.m`.
-2. Copiarlo a la Raspberry Pi y procesarlo con cada posición del mando:
-   ```bash
-   for d in 0.0 0.25 0.5 0.75 1.0; do
-     python3 file_proc.py /home/volumio/recordings/tono220.wav \
-                          /home/volumio/recordings/tono_$d.wav $d 1.0 --quiet
-   done
-   ```
-3. Copiar los ficheros procesados al ordenador y ejecutar `caracterizacion_distorsion.m` (THD) y `Comparar_senal_tono220.m` (factor de cresta). Si hace falta, ajustar las rutas al principio de cada script.
-
-### Factor de cresta de la guitarra (4.5.2)
-
-Procesada con distorsión 1,0, nivel de salida 1,0 y ganancia de entrada 0,1:
-
-```bash
-python3 file_proc.py guitarra.wav mxr_guitarra.wav 1.0 1.0 --in-gain 0.1
-```
-
-Después, ejecutar `Comparar_senal_guitarra.m`.
-
-### Tiempo de procesado (4.3)
-
-Se cronometró el procesado de un WAV estéreo de 213 s a 48 kHz en la Raspberry Pi 5, para cada posición del mando:
-
-```bash
-for d in 0.0 0.25 0.5 0.75 1.0; do
-  time python3 file_proc.py output.wav /tmp/salida.wav $d 1.0 --quiet
-done
-```
-
-El tiempo de cálculo crece con la distorsión y depende algo del contenido de la señal, por lo que los valores de la memoria corresponden a ese fichero concreto.
-
 ## Limitaciones
 
 - Solo procesa ficheros ya grabados, no audio en tiempo real.
